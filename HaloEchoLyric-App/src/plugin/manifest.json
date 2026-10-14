@@ -1,0 +1,15 @@
+{
+  "id": "halo-pixelbar-lyric",
+  "name": "Halo PixelBar 歌词桥",
+  "version": "1.0.0",
+  "description": "读取当前播放的歌词行与播放进度，通过本机 127.0.0.1 服务提供给花再 Halo PixelBar 像素屏同步程序。",
+  "author": "HaloEchoLyric",
+  "icon": "icon.svg",
+  "main": "index.js",
+  "capabilities": {
+    "webServer": true
+  },
+  "requires": {
+    "echoMusicVersion": ">=2.2.6-beta.20"
+  }
+}

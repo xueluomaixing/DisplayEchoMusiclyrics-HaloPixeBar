@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HaloEchoLyric</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="titlebar">
+    <div class="brand">
+      <div class="logo">Hd</div>
+      <div class="brand-text">
+        <b>HaloEchoLyric</b>
+        <span>EchoMusic 歌词屏控制中心</span>
+      </div>
+    </div>
+    <div class="winctl">
+      <button id="winMin" title="最小化">&#8211;</button>
+      <button id="winMax" title="最大化">&#9744;</button>
+      <button id="winClose" class="danger" title="关闭">&#10005;</button>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="sidebar">
+      <nav id="nav">
+        <button class="nav-item active" data-page="overview"><svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9zm0 7h6v-5H4v5zm10 0h6v-9h-6v9zm0-16v5h6V4h-6z"/></svg><span>概览</span></button>
+        <button class="nav-item" data-page="lyric"><svg viewBox="0 0 24 24"><path d="M4 6h11v2H4V6zm0 5h11v2H4v-2zm0 5h7v2H4v-2zm13-1.5a2.5 2.5 0 105 0V7l-3 1V6l4-1.4V14.5z"/></svg><span>歌词</span></button>
+        <button class="nav-item" data-page="screen"><svg viewBox="0 0 24 24"><path d="M3 5h18v11H3V5zm2 2v7h14V7H5zm3 11h8v2H8v-2z"/></svg><span>屏幕</span></button>
+        <button class="nav-item" data-page="light"><svg viewBox="0 0 24 24"><path d="M12 2l2.2 5.6L20 9.8l-5.8 2.2L12 18l-2.2-6L4 9.8l5.8-2.2L12 2z"/></svg><span>灯光</span></button>
+        <button class="nav-item" data-page="settings"><svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zm8.4 4l2 1.6-2 3.4-2.4-.9a7.8 7.8 0 01-1.7 1l-.4 2.5h-3.8l-.4-2.5a7.8 7.8 0 01-1.7-1l-2.4.9-2-3.4L7.6 12l-2-1.6 2-3.4 2.4.9c.5-.4 1.1-.8 1.7-1L12 4.4h3.8l.4 2.5c.6.2 1.2.6 1.7 1l2.4-.9 2 3.4L20.4 12z"/></svg><span>设置</span></button>
+        <button class="nav-item" data-page="logs"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5V3zm2 3v2h10V6H7zm0 4v2h10v-2H7zm0 4v2h7v-2H7z"/></svg><span>日志</span></button>
+        <button class="nav-item" data-page="about"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>关于</span></button>
+      </nav>
+      <div class="side-foot">
+        <div class="status-line">
+          <span id="sideDot" class="dot off"></span>
+          <span id="sideStatus">设备未连接</span>
+        </div>
+        <span id="sideVer" class="ver">v1.0.0</span>
+      </div>
+    </aside>
+
+    <main class="content">
+
+      <!-- ============ 概览 ============ -->
+      <section class="page active" id="page-overview">
+        <h1 class="page-title">控制中心</h1>
+        <div class="grid-2">
+          <div class="card nowplaying">
+            <div class="card-head">
+              <span>正在播放</span>
+              <div class="eq" id="ovEq"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="np-row">
+              <div class="np-cover">
+                <svg viewBox="0 0 64 64">
+                  <defs><linearGradient id="gEcho" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#7c4dff"/><stop offset="1" stop-color="#22d3ee"/>
+                  </linearGradient></defs>
+                  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#gEcho)" opacity="0.18"/>
+                  <path d="M25 42a7 7 0 117-7v-8l14-3v15a7 7 0 11-6-6.9V24l-9 2v16z" fill="url(#gEcho)"/>
+                </svg>
+                <em>EchoMusic</em>
+              </div>
+              <div class="np-info">
+                <div class="np-title" id="ovTitle">等待播放器…</div>
+                <div class="np-artist" id="ovArtist">EchoMusic（酷狗概念版）</div>
+                <div class="chip-row">
+                  <span class="chip">LRC</span><span class="chip" id="ovSync">实时同步</span>
+                </div>
+                <div class="np-state" id="ovState">等待播放器 · 同步未就绪</div>
+              </div>
+            </div>
+            <div class="progress">
+              <span id="ovCur">00:00</span>
+              <div class="bar"><div class="bar-fill" id="ovBar"></div></div>
+              <span id="ovDur">00:00</span>
+            </div>
+          </div>
+
+          <div class="card device-card">
+            <div class="card-head">
+              <span>Halo PixelBar</span>
+              <span class="dot-wrap"><span id="dvDot" class="dot off"></span><span id="dvLabel">设备未连接</span></span>
+            </div>
+            <div class="viz" id="dvViz"></div>
+            <div class="dev-model" id="dvModel">花再 Halo PixelBar</div>
+            <div class="dev-meta">
+              <div id="dvVid">VID 0x2D99 · PID 0xA106</div>
+              <div id="dvDesc">等待设备</div>
+            </div>
+            <div class="btn-row">
+              <button class="btn ghost danger-text" id="dvDisconnect">断开设备</button>
+              <button class="btn ghost" id="dvScan">扫描</button>
+            </div>
+            <div class="switch-row">
+              <span>同步控制</span>
+              <label class="switch"><input type="checkbox" id="dvEnable"><i></i></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card preview-card">
+          <div class="card-head"><span>歌词预览</span></div>
+          <div class="preview" id="ovPreview">暂无同步歌词</div>
+        </div>
+      </section>
+
+      <!-- ============ 歌词 ============ -->
+      <section class="page" id="page-lyric">
+        <h1 class="page-title">歌词</h1>
+        <div class="grid-2 wide-left">
+          <div class="card">
+            <div class="card-head"><span>时间轴预览</span></div>
+            <div class="timeline" id="tlList"></div>
+          </div>
+          <div class="stack">
+            <div class="card">
+              <div class="card-head"><span>歌词来源</span></div>
+              <div class="field readonly" id="lsUrl">http://127.0.0.1:38333/state</div>
+              <div class="mini-note" id="lsNote">EchoMusic 插件 · 本机回环</div>
+              <button class="btn primary block" id="lsInstall">安装 / 更新 EchoMusic 插件</button>
+              <button class="btn ghost block" id="lsStatus">检查连接状态</button>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><span>文字效果</span></div>
+              <div class="seg" data-key="mode">
+                <button data-val="static">静态显示</button>
+                <button data-val="scroll" class="on">滚动显示</button>
+              </div>
+              <div class="sub-label">文字对齐方式</div>
+              <div class="seg small" data-key="align">
+                <button data-val="left">左对齐</button>
+                <button data-val="center" class="on">居中对齐</button>
+                <button data-val="right">右对齐</button>
+                <button data-val="stretch">两端对齐</button>
+              </div>
+              <div class="sub-label">滚动方向</div>
+              <div class="seg small" data-key="scroll">
+                <button data-val="right_to_left" class="on">右 → 左</button>
+                <button data-val="left_to_right">左 → 右</button>
+              </div>
+              <div class="seg small disabled" data-key="vertical" title="设备文本协议不支持上下滚动">
+                <button data-val="down_to_up" disabled>下 → 上</button>
+                <button data-val="up_to_down" disabled>上 → 下</button>
+              </div>
+              <div class="mini-note warn" id="vertNote">该设备文字协议仅支持横向滚动，上下滚动不可用</div>
+
+              <div class="sub-label">歌词延迟</div>
+              <div class="slider-row">
+                <button class="btn ghost tiny" id="offMinus">-100</button>
+                <span class="mono accent" id="offVal">+0 ms</span>
+                <button class="btn ghost tiny" id="offPlus">+100</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 屏幕 ============ -->
+      <section class="page" id="page-screen">
+        <h1 class="page-title">像素屏</h1>
+        <div class="card">
+          <div class="card-head"><span>自定义文字</span></div>
+          <div class="row">
+            <input class="input" id="scText" maxlength="40" value="你好，Halo">
+            <button class="btn primary" id="scSend">发送到屏幕</button>
+            <button class="btn ghost" id="scColorBtn">选择屏幕纯色</button>
+            <input type="color" id="scColor" value="#7c4dff" class="hidden-color">
+          </div>
+          <div class="mini-note">单包上限 55 字节 UTF-8（约 18 个汉字 / 36 列）</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span>屏幕场景（UI 模式）</span></div>
+          <div class="scene-grid" id="scScenes"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span>显示参数</span></div>
+          <div class="param-grid">
+            <label>每行列宽
+              <input type="number" class="input" id="scCols" min="4" max="40" step="1">
+            </label>
+            <label>歌词颜色
+              <input type="color" class="input color" id="scLyricColor">
+            </label>
+            <label>切歌显示歌名
+              <input type="number" class="input" id="scSongInfo" min="0" max="10" step="0.5">
+            </label>
+            <label>待机切时钟（秒）
+              <input type="number" class="input" id="scIdle" min="0" max="600" step="5">
+            </label>
+          </div>
+          <div class="btn-row">
+            <button class="btn primary" id="scApply">应用并保存</button>
+            <button class="btn ghost" id="scTest">发送测试文字</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 灯光 ============ -->
+      <section class="page" id="page-light">
+        <h1 class="page-title">灯光</h1>
+        <div class="card">
+          <div class="card-head"><span>氛围灯控制</span>
+            <span class="accent-sm" id="ltCur">当前：纯色静光</span>
+          </div>
+          <div class="sub-label">灯效模式</div>
+          <div class="scene-grid" id="ltEffects"></div>
+          <div class="sub-label">亮度（三级）</div>
+          <div class="seg small" data-key="brightness">
+            <button data-val="low">低</button>
+            <button data-val="medium">中</button>
+            <button data-val="high" class="on">高</button>
+          </div>
+          <div class="sub-label">颜色</div>
+          <div class="row">
+            <input type="color" id="ltColor" value="#ffffff" class="input color small-color">
+            <span class="mini-note">部分灯效不支持自定义颜色</span>
+          </div>
+          <div class="sub-label">速度</div>
+          <div class="slider-row">
+            <input type="range" id="ltSpeed" min="1" max="10" value="10" class="range">
+            <span class="mono accent" id="ltSpeedVal">10</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn primary" id="ltApply">应用灯效</button>
+            <button class="btn ghost" id="ltOff">关闭氛围灯</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 设置 ============ -->
+      <section class="page" id="page-settings">
+        <h1 class="page-title">设置与诊断</h1>
+
+        <div class="card">
+          <div class="card-head"><span>通用设置</span></div>
+          <div class="switch-row"><span>启动后自动连接 Halo PixelBar</span>
+            <label class="switch"><input type="checkbox" id="stAutoConnect"><i></i></label></div>
+          <div class="switch-row"><span>登录 Windows 后自动启动</span>
+            <label class="switch"><input type="checkbox" id="stAutostart"><i></i></label></div>
+          <div class="sub-label">关闭主窗口时</div>
+          <div class="seg small" data-key="close">
+            <button data-val="tray" class="on">最小化到托盘，不退出</button>
+            <button data-val="exit">退出程序</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span>USB 诊断</span></div>
+          <button class="btn ghost block" id="stRescan">重新扫描全部 Halo 接口</button>
+          <pre class="code" id="stUsb">尚未扫描</pre>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span>本地文件与维护</span></div>
+          <div class="btn-row">
+            <button class="btn ghost" id="stOpenLog">打开日志目录</button>
+            <button class="btn ghost" id="stReset">恢复默认配置</button>
+            <button class="btn danger" id="stUninstall">卸载 HaloEchoLyric</button>
+          </div>
+          <div class="mini-note" id="stPaths"></div>
+        </div>
+      </section>
+
+      <!-- ============ 日志 ============ -->
+      <section class="page" id="page-logs">
+        <h1 class="page-title">运行日志</h1>
+        <div class="card grow">
+          <div class="card-head"><span>实时输出</span>
+            <button class="btn ghost tiny" id="lgClear">清空</button>
+          </div>
+          <pre class="log" id="lgBox"></pre>
+        </div>
+      </section>
+
+      <!-- ============ 关于 ============ -->
+      <section class="page" id="page-about">
+        <h1 class="page-title">关于</h1>
+        <div class="card about">
+          <div class="logo big">Hd</div>
+          <h2>HaloEchoLyric <span id="abVer" class="accent-sm">v1.0.0</span></h2>
+          <p>把 EchoMusic 正在播放的歌词，实时同步到花再 Halo PixelBar 像素屏。</p>
+          <p class="mini-note">由「EchoMusic 插件 + USB HID 直驱」两部分组成，不联网、不改注册表。</p>
+          <div class="btn-row">
+            <button class="btn ghost" id="abLog">打开日志目录</button>
+            <button class="btn ghost" id="abPlugin">重装插件</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
