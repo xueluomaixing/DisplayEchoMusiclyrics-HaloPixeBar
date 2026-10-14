@@ -75,18 +75,6 @@ run-dev.bat
   --hidden-import clr --hidden-import pythonnet --hidden-import pystray ^
   src\app.py
 ```
-
-### 打包技术要点（踩过的坑）
-
-1. **必须显式 `gui="edgechromium"`**
-   pywebview 不指定后端时会静默退化成 **IE11 内核**（MSHTML），现代 CSS（Grid、CSS 变量）直接失效。
-   指定后需要 `pythonnet` + WebView2 运行时（Win11 自带）。
-   判断方法：页面里的 `navigator.userAgent` 应含 `Edg/` 而不是光秃秃的 `AppleWebKit/537.36`。
-2. **`--add-data` 的路径基准**
-   用了 `--specpath` 之后相对路径会以 spec 所在目录为基准，导致 `src\ui` 找不到。build.bat 里没有用它。
-3. **`--collect-all webview`**
-   否则 pywebview 目录下的 `Microsoft.Web.WebView2.*.dll` 和 `WebView2Loader.dll` 不会被打包。
-
 ---
 
 ## 卸载
@@ -163,8 +151,4 @@ HaloEchoLyric-App/
   两个实例会抢同一个 HID 设备、互相覆盖屏幕内容，所以做了互斥保护。
 - **关闭主窗口 = 最小化到托盘**（默认）。托盘图标双击可恢复，右键菜单可退出。
   想改成直接退出：设置 → 关闭主窗口 → 退出程序。
-- 退出时会**还原设备原本的 UI 模式**（如果之前因待机切过）。
-- 之前用 bat 版本（`HaloEchoLyric` 项目里的 `start-sync.bat`）的话，**请先关掉它**，
-  否则两个程序会抢设备。注意：即使黑框里没输出，进程也可能还在跑，
-  用任务管理器确认一下没有 `python3.13.exe`。
 
